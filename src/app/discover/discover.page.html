@@ -1,0 +1,89 @@
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Discover</ion-title>
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-icon name="help-circle"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <section class="search-by-tag">
+    <ion-icon name="search" class="fixed-search-icon" size="large"></ion-icon>
+    <ion-chip *ngFor="let tag of tags; let i = index" class="tag">
+      <ion-label>#{{tag}}</ion-label>
+      <ion-icon name="close-circle" (click)="removeTag(i)"></ion-icon>
+    </ion-chip>
+    <form #form="ngForm" (ngSubmit)="addTag(form.value)" class="tag-form">
+      <ion-item class="tag-input">
+        <ion-input [(ngModel)]="tagInput" name="tagValue" placeholder="Tag" autofocus class="tag-input-field">
+        </ion-input>
+      </ion-item>
+    </form>
+  </section>
+  <section class="related-card" *ngIf="tags && tags?.length">
+    <h3>You may also search for:</h3>
+    <div class="-row">
+      <div class="-col" *ngFor="let related of relatedSearch">
+        <h5>{{related.tag}}</h5>
+        <p>{{related.post}}</p>
+      </div>
+    </div>
+  </section>
+  <section class="post-info">
+    <ion-grid class="ion-no-padding">
+      <ion-row>
+        <ion-col size="6">
+          <div class="post-info-wrapper">
+            <h2>200k</h2>
+            <p>Number of people talking about #fashion, #shoes</p>
+          </div>
+        </ion-col>
+        <ion-col size="6">
+          <div class="post-info-wrapper">
+            <h2>20k</h2>
+            <p>Number of Kofluence influencers talking about #fashion, #shoes</p>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </section>
+  <section class="content-tab">
+    <ion-segment (ionChange)="segmentChanged()" [(ngModel)]="segment" class="post-tab">
+      <ion-segment-button value="0" checked>
+        <ion-label>Top Posts</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="1">
+        <ion-label>Latest Posts</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+    <ion-slides #slides (ionSlideDidChange)="slideChanged()" class="slide-tab">
+      <ion-slide class="slide-1">
+        <ion-grid class="ion-no-padding">
+          <ion-row>
+            <ion-col size="6" size-md="4" size-lg="3" *ngFor="let photo of photos?.slice(0, 48); let i = index"
+              class="photo">
+              <img [src]="photo.thumbnailUrl">
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-slide>
+      <ion-slide class="slide-2">
+        <ion-grid class="ion-no-padding">
+          <ion-row>
+            <ion-col size="6" size-md="4" size-lg="3" *ngFor="let photo of photos?.slice(49, 97); let i = index"
+              class="photo">
+              <img [src]="photo.thumbnailUrl">
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-slide>
+    </ion-slides>
+  </section>
+
+</ion-content>
